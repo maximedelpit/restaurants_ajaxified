@@ -1,8 +1,9 @@
 <h1><%= @restaurant.name %></h1>
 <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?zoom=12&size=400x300&sensor=false&maptype=roadmap&markers=color:blue|#{@restaurant.address}" %>
-<h2>
-  <%= pluralize @restaurant.reviews.size, "review" %>
-</h2>
+<div id="review_count">
+  <%= render 'review_count', reviews: @restaurant.reviews %>
+</div>
+
 
 <div id="reviews">
   <% if @restaurant.reviews.blank? %>
@@ -12,6 +13,6 @@
       <%= render 'reviews/show', review: review %>
     <% end %>
   <% end %>
-  <%= render 'reviews/form', restaurant: @restaurant, review: @review %>
 </div>
 
+<%= render 'reviews/form', restaurant: @restaurant, review: @review %>

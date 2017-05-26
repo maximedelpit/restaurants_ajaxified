@@ -4,9 +4,28 @@ class ReviewsController < ApplicationController
     @review = Review.new(review_params)
     @review.restaurant = @restaurant
     if @review.save
-      redirect_to restaurant_path(@restaurant)
+
+      # Unobtrusive Javascript
+      respond_to do |format|
+        format.html {redirect_to restaurant_path(@restaurant)}
+        format.js {}
+      end
     else
-      render 'restaurants/show'
+      respond_to do |format|
+        format.html {render 'restaurants/show'}
+        format.js {}
+      end
+    end
+  end
+
+  def destroy
+    @review = Review.find(params[:id])
+    @restaurant = @review.restaurant
+    @review_id = @review.id
+    @review.destroy
+    respond_to do |format|
+      format.html {redirect_to restaurant_path(@restaurant)}
+      format.js {}
     end
   end
 
